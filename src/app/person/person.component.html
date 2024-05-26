@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-md-offset-2 col-sm-offset-1">
+            <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="lastname">Last Name:
+                        <input class="form-control" type="text" id="lastname" name="lastname" formControlName="lastname"
+                            required>
+                    </label>
+                    <div
+                        *ngIf="myForm.get('lastname')?.invalid && (myForm.get('lastname')?.dirty || myForm.get('lastname')?.touched)">
+                        Please enter last name.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="firstname">First Name:
+                        <input class="form-control" type="text" id="firstname" name="firstname"
+                            formControlName="firstname" required>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address:
+                        <input class="form-control" type="textarea" rows="4" cols="50" id="address" name="address"
+                            formControlName="address">
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="city">City:
+                        <input class="form-control" type="text" id="city" name="city" formControlName="city" required>
+                    </label>
+                </div>
+
+                <div>
+                    <button class="btn btn-primary" type="submit" [disabled]="myForm.invalid">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div style="margin: 20px; font-weight: bold;">{{title | uppercase}}</div>
+<div class="person-list">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>Person Id</th>
+            <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef>First Name</th>
+            <td mat-cell *matCellDef="let element">{{element.firstName}}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef>Last Name</th>
+            <td mat-cell *matCellDef="let element">{{element.lastName}}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef>Address</th>
+            <td mat-cell *matCellDef="let element">{{element.address}}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef>City</th>
+            <td mat-cell *matCellDef="let element">{{element.city}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row (click)="clickedRows.add(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
+            *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div>
+        <h3>
+            Click Log
+        </h3>
+    </div>
+
+    @if (!clickedRows.size) {
+    <div>Clicked rows will be logged here</div>
+    }
+
+    <ul>
+        @for (clickedRow of clickedRows; track clickedRow) {
+        <li>Clicked on {{clickedRow.firstName}}</li>
+        }
+    </ul>
+</div>
